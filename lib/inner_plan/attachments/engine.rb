@@ -16,7 +16,7 @@ module InnerPlan
           .add_after(:description, InnerPlan::SmartArray::Item.new(
             :attachments,
             { span: 12 },
-            InnerPlan::Tasks::Show::Items::AttachmentsComponent
+            'InnerPlan::Tasks::Show::Items::AttachmentsComponent'
           ))
       end
     end
