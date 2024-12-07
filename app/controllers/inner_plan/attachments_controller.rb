@@ -24,7 +24,7 @@ module InnerPlan
       @attachment.task = @task
 
       if @attachment.save
-        InnerPlan::Attachments::FetchLinkMetaJob.perform_now(@attachment)
+        InnerPlan::Attachments::FetchLinkMetaJob.perform_now(@attachment) if @attachment.is_a?(InnerPlan::Attachments::Link)
         redirect_to task_attachments_path(@task)
       else
         render InnerPlan::Attachments::NewView.new(task: @task, attachment: @attachment),
@@ -37,7 +37,7 @@ module InnerPlan
       @attachment = find_attachment
 
       if @attachment.update(attachment_params)
-        InnerPlan::Attachments::FetchLinkMetaJob.perform_now(@attachment) if @attachment.saved_change_to_url?
+        InnerPlan::Attachments::FetchLinkMetaJob.perform_now(@attachment) if @attachment.saved_change_to_url? && @attachment.is_a?(InnerPlan::Attachments::Link)
         redirect_to task_attachments_path(@task)
       else
         render InnerPlan::Attachments::EditView.new(task: @task, attachment: @attachment),
